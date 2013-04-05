@@ -1,11 +1,11 @@
 <project default="tutorial">
 
-  <property name="stylesheet.dir" value="C:\usr\bin\docbook\xsl\"/>
+  <property name="stylesheet.dir" value="docbook"/>
 
   <target name="tutorial" description="Generates a single HTML file">
     <xslt processor="trax" 
 	  in="tutorial.xml" 
-	  style="${stylesheet.dir}html\\docbook.xsl" 
+      style="${stylesheet.dir}/html/docbook.xsl" 
 	  out="tutorial.html"/>
   </target>
 
