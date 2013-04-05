@@ -17,28 +17,22 @@
  * License along with MARC4J; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package org.marc4j.marc;
+package org.marc4j.marc
 
-/**
- * Represents a control field in a MARC record.
- * 
- * @author Bas Peters
- */
-public interface ControlField extends VariableField {
+class Field {
+  String tag
+// Long serialVersionUID = 1L
 
-  /**
-   * Returns the data element
-   * 
-   * @return String - the data element
-   */
-  public String getData();
-  
-  /**
-   * Sets the data element.
-   * 
-   * @param data
-   *          the data element
-   */
-  public void setData(String data);
-  
+  int compareTo(Field obj) {
+    return tag <=> obj.tag
+  }
+
+  String toString() {
+    return tag
+  }
+  boolean isControlField() {tag =~ /^00[1-9]$/}
+  boolean validateTag()    {tag != null && tag =~ /^\d\d\d$/}
+  boolean validate() {
+    return validateTag()
+  }
 }

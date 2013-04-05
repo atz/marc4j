@@ -46,29 +46,19 @@ public class MarcXmlHandler implements ContentHandler {
 //  private InputSource input;
 
   private StringBuffer sb;
-
-  private Subfield subfield;
-
+  private Subfield     subfield;
   private ControlField controlField;
-
-  private DataField dataField;
-
-  private Record record;
-
-  private String tag;
+  private DataField    dataField;
+  private Record       record;
+  private String       tag;
 
   /** Constants representing each valid tag type */
-  private static final int COLLECTION_ID = 1;
-
-  private static final int LEADER_ID = 2;
-
-  private static final int RECORD_ID = 3;
-
+  private static final int COLLECTION_ID   = 1;
+  private static final int LEADER_ID       = 2;
+  private static final int RECORD_ID       = 3;
   private static final int CONTROLFIELD_ID = 4;
-
-  private static final int DATAFIELD_ID = 5;
-
-  private static final int SUBFIELD_ID = 6;
+  private static final int DATAFIELD_ID    = 5;
+  private static final int SUBFIELD_ID     = 6;
 
   /** The tag attribute name string */
   private static final String TAG_ATTR = "tag";
@@ -89,12 +79,12 @@ public class MarcXmlHandler implements ContentHandler {
 
   static {
     elementMap = new HashMap<String, Integer>();
-    elementMap.put("collection", new Integer(COLLECTION_ID));
-    elementMap.put("leader", new Integer(LEADER_ID));
-    elementMap.put("record", new Integer(RECORD_ID));
+    elementMap.put("collection",   new Integer(COLLECTION_ID));
+    elementMap.put("leader",       new Integer(LEADER_ID));
+    elementMap.put("record",       new Integer(RECORD_ID));
     elementMap.put("controlfield", new Integer(CONTROLFIELD_ID));
-    elementMap.put("datafield", new Integer(DATAFIELD_ID));
-    elementMap.put("subfield", new Integer(SUBFIELD_ID));
+    elementMap.put("datafield",    new Integer(DATAFIELD_ID));
+    elementMap.put("subfield",     new Integer(SUBFIELD_ID));
   }
 
   /**
@@ -159,8 +149,7 @@ public class MarcXmlHandler implements ContentHandler {
       sb.append(ch, start, length);
   }
 
-  public void endElement(String uri, String name, String qName)
-      throws SAXException {
+  public void endElement(String uri, String name, String qName) throws SAXException {
 
     String realname = (name.length() == 0) ? qName : name;
     Integer elementType = (Integer) elementMap.get(realname);
@@ -196,29 +185,18 @@ public class MarcXmlHandler implements ContentHandler {
     queue.end();
   }
 
-  public void ignorableWhitespace(char[] data, int offset, int length)
-      throws SAXException {
-    // not implemented
+  // The rest of these are NOT implemented ...
+  public void ignorableWhitespace(char[] data, int offset, int length) throws SAXException {
   }
-
   public void endPrefixMapping(String prefix) throws SAXException {
   }
-
   public void skippedEntity(String name) throws SAXException {
-    // not implemented
   }
-
   public void setDocumentLocator(Locator locator) {
-    // not implemented
   }
-
-  public void processingInstruction(String target, String data)
-      throws SAXException {
-    // not implemented
+  public void processingInstruction(String target, String data) throws SAXException {
   }
-
   public void startPrefixMapping(String prefix, String uri) throws SAXException {
-//  not implemented
   }
 
 }

@@ -1,0 +1,70 @@
+/**
+ * Copyright (C) 2004 Bas Peters
+ *
+ * This file is part of MARC4J
+ *
+ * MARC4J is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Lesser General Public 
+ * License as published by the Free Software Foundation; either 
+ * version 2.1 of the License, or (at your option) any later version.
+ *
+ * MARC4J is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
+ * Lesser General Public License for more details.
+ *
+ * You should have received a copy of the GNU Lesser General Public 
+ * License along with MARC4J; if not, write to the Free Software
+ * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ */
+package org.marc4j.marc.impl
+
+import org.marc4j.MarcException
+import org.marc4j.marc.*
+
+class MarcFactory {
+  ControlField newControlField(String tag=null, String data=null) {
+    return new ControlField('tag':tag, 'data':data)
+  }
+  DataField newDataField() {
+    return new DataField()
+  }
+  DataField newDataField(String tag, char ind1, char ind2) {
+    return new DataField(tag, ind1, ind2)
+  }
+  DataField newDataField(String tag, char ind1, char ind2, String ... pairs) {
+    df = new DataField(tag, ind1, ind2);
+    if (pairs.length % 2 == 1)
+    {
+      throw new MarcException("Error: must provide even number of parameters for subfields: code, data, code, data, ...");
+    }
+    for (int i = 0; i < pairs.length; i += 2) {
+      if (pairs[i].length() != 1) {
+        throw new MarcException("Error: subfieldCode must be a single character");
+      }
+      df.addSubfield(newSubfield(pairs[i].charAt(0), pairs[i+1]))
+    }
+    return(df)
+  }
+
+  Leader newLeader() {
+    return new Leader()
+  }
+  Leader newLeader(String ldr) {
+    return new Leader(ldr)
+  }
+  Subfield newSubfield(char code=null, String data=null) {
+    return new Subfield('code':code, 'data':data)
+  }
+  Record newRecord() {
+    return newRecord(default_leader)
+  }
+  Record newRecord(Leader leader) {
+    return new Record(leader)
+  }
+  Record newRecord(String leadertext) {
+    return newRecord(new Leader(leadertext))
+  }
+
+  def default_leader = new Leader("00000nam a2200000 a 4500")
+}

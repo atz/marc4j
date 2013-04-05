@@ -27,14 +27,14 @@ public class CustomDecimalFormat extends DecimalFormat {
       maximumValue = Long.parseLong(maxString.substring(0, numberDigits));
       overflowRepresentation = REP_ALL_NINES;
       this.setMaximumIntegerDigits(numberDigits); 
-    }
+  }
     
   public CustomDecimalFormat(int numberDigits, int overflowType) {
       super(formatString.substring(0,numberDigits));
       maximumValue = Long.parseLong(maxString.substring(0, numberDigits));
       overflowRepresentation = overflowType;
       this.setMaximumIntegerDigits(5); 
-    }
+  }
     
   
   @Override

@@ -19,7 +19,6 @@
  */
 package org.marc4j.marc;
 
-import java.io.*;
 import java.util.Properties;
 
 /**
@@ -32,7 +31,7 @@ import java.util.Properties;
  *  MarcFactory factory = MarcFactory.newInstance();
  *  Record record = factory.newRecord();
  *  ControlField cf = factory.newControlField(&quot;001&quot;);
- *  record.addVariableField(cf);
+ *  record.addField(cf);
  *  etc...
  *
  * </pre>
@@ -217,38 +216,28 @@ public abstract class MarcFactory {
      */
     public abstract Subfield newSubfield(char code, String data);
 
-    public boolean validateRecord(Record record) {
-        if (record.getLeader() == null) {
-            return false;
-        }
+    boolean validateRecord(Record record) {
+        if (record.leader == null) return false
+
         for (ControlField controlField : record.getControlFields()) {
-            if (!validateControlField(controlField)) {
-                return false;
-            }
+            if (!validateControlField(controlField)) return false
         }
         for (DataField dataField : record.getDataFields()) {
-            if (!validateDataField(dataField)) {
-                return false;
-            }
+            if (!validateDataField(dataField)) return false
         }
         return true;
     }
 
-    public boolean validateVariableField(VariableField field) {
-        return field.getTag() != null;
+    boolean validateField(Field field) {
+        return field.tag != null;
     }
 
-    public boolean validateControlField(ControlField field) {
-        return validateVariableField(field) && field.getData() != null;
+    boolean validateControlField(ControlField field) {
+        return validateField(field) && field.getData() != null;
     }
 
-    public boolean validateDataField(DataField field) {
-        if (!validateVariableField(field)) {
-            return false;
-        }
-        if (field.getIndicator1() == 0 || field.getIndicator2() == 0) {
-            return false;
-        }
+    boolean validateDataField(DataField field) {
+        if (!validateField(field)) return false
         for (Subfield subfield : field.getSubfields()) {
             if (!validateSubField(subfield)) {
                 return false;
@@ -257,7 +246,7 @@ public abstract class MarcFactory {
         return true;
     }
 
-    public boolean validateSubField(Subfield subfield) {
+    boolean validateSubField(Subfield subfield) {
         return subfield.getCode() != 0 && subfield.getData() != null;
     }
 

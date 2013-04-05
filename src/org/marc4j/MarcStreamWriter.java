@@ -73,7 +73,6 @@ import org.marc4j.util.CustomDecimalFormat;
 public class MarcStreamWriter implements MarcWriter {
 
     protected OutputStream out = null;
-
     protected String encoding = "ISO8859_1";
 
     private CharConverter converter = null;
@@ -82,7 +81,6 @@ public class MarcStreamWriter implements MarcWriter {
     protected boolean hasOversizeLength = false;
     
     protected static DecimalFormat format4Use = new CustomDecimalFormat(4);
-
     protected static DecimalFormat format5Use = new CustomDecimalFormat(5);
 
     /**

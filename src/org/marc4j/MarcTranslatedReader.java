@@ -54,10 +54,10 @@ public class MarcTranslatedReader implements MarcReader
     {
         reader = r;
         convert = new AnselToUnicode();
-        if (unicodeNormalizeStr.equals("KC")) unicodeNormalize = Normalizer.NFKC;
+        if      (unicodeNormalizeStr.equals("KC")) unicodeNormalize = Normalizer.NFKC;
         else if (unicodeNormalizeStr.equals("KD")) unicodeNormalize = Normalizer.NFKD;
-        else if (unicodeNormalizeStr.equals("C")) unicodeNormalize = Normalizer.NFC;
-        else if (unicodeNormalizeStr.equals("D")) unicodeNormalize = Normalizer.NFD;
+        else if (unicodeNormalizeStr.equals("C" )) unicodeNormalize = Normalizer.NFC;
+        else if (unicodeNormalizeStr.equals("D" )) unicodeNormalize = Normalizer.NFD;
         else unicodeNormalize = Normalizer.NONE;
     }
     

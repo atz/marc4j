@@ -303,7 +303,7 @@ public class MarcStreamReader implements MarcReader {
         int bytesRead = 0;
         while (true) {
             switch (bais.read()) {
-             case Constants.FT:
+            case Constants.FT:
                 bais.reset();
                 return bytesRead;
             case -1:
@@ -358,7 +358,7 @@ public class MarcStreamReader implements MarcReader {
         isr.read(tmp);
         ldr.setImplDefined1(tmp);
         ldr.setCharCodingScheme((char) isr.read());
-        char indicatorCount = (char) isr.read();
+        char indicatorCount     = (char) isr.read();
         char subfieldCodeLength = (char) isr.read();
         char baseAddr[] = new char[5];
         isr.read(baseAddr);

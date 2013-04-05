@@ -17,56 +17,39 @@
  * License along with MARC4J; if not, write to the Free Software
  * Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
-package org.marc4j.marc.impl;
+package org.marc4j.marc
 
-import org.marc4j.marc.ControlField;
-
-import java.util.Collection;
+import org.marc4j.marc.ControlField
 
 /**
  * Handles MARC checks on tags, data elements and <code>Record</code> objects.
- * 
- * @author Bas Peters
  */
-public class Verifier {
-
-  private Verifier() {
-  }
+class Verifier {
 
   /**
    * Returns true if the given <code>String</code> value identifies a tag for
    * a control field (001 through 009).
    */
-  public static boolean isControlField(String tag) {
-    if (tag.length() == 3 && tag.charAt(0) == '0' && tag.charAt(1) == '0' && tag.charAt(2) >= '0' && tag.charAt(2) <= '9')// if (Integer.parseInt(tag) < 10)
-      return true;
-    return false;
+  boolean isControlField(String tag) {
+    return tag =~ /^00\d$/
   }
 
   /**
    * Returns true if the given <code>String</code> value identifies a tag for
    * a control number field (001).
    */
-  public static boolean isControlNumberField(String tag){
-    if (tag.equals("001"))
-      return true;
-    return false;
+  boolean isControlNumberField(String tag){
+    return tag == "001"
   }
-/**
+  /**
    * Returns true if the given <code>Collection</code> contains an instance of
    * a <code>ControlField</code> with a control number field tag (001).
    * 
    * @param col
    *          the collection of <code>ControlField</code> objects.
    */
-  public static boolean hasControlNumberField(Collection<ControlField> col) {
-    for (ControlField field : col)
-    {
-        String tag = field.getTag();
-        if (isControlNumberField(tag))
-            return true;
-    }
-    return false;
+  boolean hasControlNumberField(col) {
+    return (col.grep{it.tag =~ /^00\d$/}.size ? true : false)
   }
 
 }
