@@ -9,7 +9,7 @@ import org.marc4j.marc.Subfield
 class DataField extends Field {
   char ind1
   char ind2
-  subfields = []
+  def subfields = []
 
   def DataField(String tag, String ind1, String ind2) {
     DataField(tag, ind1 as char, ind2 as char)

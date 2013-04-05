@@ -3,7 +3,7 @@
  *
  * This file is part of MARC4J licensed unter GNU LGPL 2.1+
  */
-package org.marc4j.marc.impl
+package org.marc4j.marc
 
 import org.marc4j.MarcException
 import org.marc4j.marc.*
@@ -22,22 +22,19 @@ class MarcFactory {
     df = new DataField(tag, ind1, ind2);
     if (pairs.length % 2 == 1)
     {
-      throw new MarcException("Error: must provide even number of parameters for subfields: code, data, code, data, ...");
+      throw new MarcException("Error: must provide even number of parameters for subfields: code, data, code, data, ...")
     }
     for (int i = 0; i < pairs.length; i += 2) {
       if (pairs[i].length() != 1) {
-        throw new MarcException("Error: subfieldCode must be a single character");
+        throw new MarcException("Error: subfieldCode must be a single character")
       }
       df.addSubfield(newSubfield(pairs[i].charAt(0), pairs[i+1]))
     }
     return(df)
   }
 
-  Leader newLeader() {
-    return new Leader()
-  }
-  Leader newLeader(String ldr) {
-    return new Leader(ldr)
+  Leader newLeader(String ldr=null) {
+    return (ldr == null ? new Leader() : new Leader(ldr))
   }
   Subfield newSubfield(char code=null, String data=null) {
     return new Subfield('code':code, 'data':data)

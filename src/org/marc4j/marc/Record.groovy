@@ -15,8 +15,8 @@ import org.marc4j.marc.Subfield
 class Record {
     Long   id
     Leader leader
-    controlFields = [:]
-    dataFields    = []
+    def controlFields = [:]
+    def dataFields    = []
     String type
 
     /**
