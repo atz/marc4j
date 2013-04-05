@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project  xmlns:ivy="antlib:org.apache.ivy.ant" name="marc4j" default="jar" basedir=".">
 
-
-
     <target name="init">
 		<tstamp />
 		<record name="build.log" loglevel="verbose" append="no" />
-
     </target>
 
 	<property file="build.properties" />
-
-
-
 
 	<target name="prepare" depends="init,setup-ivy">
 		<mkdir dir="${build.dir}" />
@@ -37,9 +31,12 @@
             <include name="**/*.jar" />
         </fileset>
     </path>
+    <path id="groovy.cp">
+        <fileset dir="${env.GROOVY_HOME}" includes="lib/*.*"/>
+    </path>
 
     <target name="prepare-codetablegen" depends="prepare">
-	  <mkdir dir="${build.generated-src.dir}/org/marc4j/converter/impl" />
+	  <mkdir dir="${build.generated-src.dir}/org/marc4j/converterimpl" />
         <dependset>
             <srcfileset  dir="${src.dir}/org/marc4j/converter/impl/"/>
             <targetfileset dir="${build.generated-src.dir}/org/marc4j/converter/impl/" includes="*.java"/>
@@ -60,9 +57,11 @@
         <javac encoding="UTF-8" srcdir="${build.generated-src.dir}" destdir="${build.classes.dir}" includes="**/*Generated.java" debug="false">
             <classpath refid="classpath" />
         </javac>
-
     </target>
     <target name="compile-all" depends="compile-base,compile-codegen"/>
+    <target name="compile-groovy">
+        <taskdef name="groovyc" classname="org.codehaus.groovy.ant.Groovyc" classpath="${src.dir}"/>
+    </target>
 
 	<target name="compile-base" depends="prepare">
         <javac encoding="UTF-8" srcdir="${src.dir}" destdir="${build.classes.dir}" includes="**/*.java" excludes="**/*Generated.java" debug="true" debuglevel="source,lines,vars">
@@ -84,14 +83,12 @@
         </javac>
     </target>
 
-
     <target name="test" depends="compile-all,compile-tests">
 		<junit fork="yes" forkmode="perBatch" haltonfailure="true">
             <batchtest>
                 <fileset dir="${test.src.dir}">
                     <exclude name="org/marc4j/test/utils/**"/>
                 </fileset>
-
             </batchtest>
 			<formatter type="brief" usefile="false" />
 			<classpath refid="test.classpath" />
