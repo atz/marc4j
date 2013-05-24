@@ -72,7 +72,7 @@ MARC4J 2.1 is a minor release providing some bug fixes and some new functionalit
 Most important are properly support for non latin-1 encodings in MarcXStreamWriter and
 extensive code examples in the Javadoc for the org.marc4j.marc package.
 
-- Fixed bug in MarcXmlParserThreat that thread hangs if underlying XML parser throws Exception
+- Fixed bug in MarcXmlParserThread that thread hangs if underlying XML parser throws Exception
 - Fixed MarcStreamWriter to properly support non-latin-1 encodings
 - Created more extensive Javadoc documentation for org.marc4j.marc package with many examples
 - Changed methods in MarcXmlWriter from private to protected to enable subclassing
