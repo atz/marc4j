@@ -177,7 +177,7 @@ public class MarcStreamReader implements MarcReader {
         
         if ((directoryLength % 12) != 0)
         {
-            throw new MarcException("invalid directory");
+            throw new MarcException("invalid directory length: " + directoryLength);
         }
         DataInputStream inputrec = new DataInputStream(new ByteArrayInputStream(recordBuf));
         int size = directoryLength / 12;
@@ -185,9 +185,9 @@ public class MarcStreamReader implements MarcReader {
         String[] tags = new String[size];
         int[] lengths = new int[size];
 
-        byte[] tag = new byte[3];
+        byte[] tag    = new byte[3];
         byte[] length = new byte[4];
-        byte[] start = new byte[5];
+        byte[] start  = new byte[5];
 
         String tmp;
 
