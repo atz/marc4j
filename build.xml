@@ -1,18 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <project  xmlns:ivy="antlib:org.apache.ivy.ant" name="marc4j" default="jar" basedir=".">
 
-
-
     <target name="init">
 		<tstamp />
 		<record name="build.log" loglevel="verbose" append="no" />
-
     </target>
 
 	<property file="build.properties" />
-
-
-
 
 	<target name="prepare" depends="init,setup-ivy">
 		<mkdir dir="${build.dir}" />
@@ -60,7 +54,6 @@
         <javac encoding="UTF-8" srcdir="${build.generated-src.dir}" destdir="${build.classes.dir}" includes="**/*Generated.java" debug="false">
             <classpath refid="classpath" />
         </javac>
-
     </target>
     <target name="compile-all" depends="compile-base,compile-codegen"/>
 
@@ -84,14 +77,12 @@
         </javac>
     </target>
 
-
     <target name="test" depends="compile-all,compile-tests">
 		<junit fork="yes" forkmode="perBatch" haltonfailure="true">
             <batchtest>
                 <fileset dir="${test.src.dir}">
                     <exclude name="org/marc4j/test/utils/**"/>
                 </fileset>
-
             </batchtest>
 			<formatter type="brief" usefile="false" />
 			<classpath refid="test.classpath" />
@@ -102,13 +93,13 @@
 		<jar jarfile="${build.dir}/${jar.name}">
 			<manifest>
 			    <section name="org/marc4j">
-			      <attribute name="Specification-Title" value="marc4j"/>
-			      <attribute name="Specification-Version" value="2.5"/> 
-			      <attribute name="Specification-Vendor" value="org.marc4j"/> 
+                    <attribute name="Specification-Title"   value="marc4j"/>
+                    <attribute name="Specification-Version" value="${version}"/>
+                    <attribute name="Specification-Vendor"  value="org.marc4j"/>
 
-			      <attribute name="Implementation-Title" value="marc4j"/>
-			      <attribute name="Implementation-Version" value="${version}"/> 
-			      <attribute name="Implementation-Vendor" value="Team marc4j"/>
+                    <attribute name="Implementation-Title"   value="marc4j"/>
+                    <attribute name="Implementation-Version" value="${version}"/>
+                    <attribute name="Implementation-Vendor"  value="Team marc4j"/>
 			    </section>
 			</manifest>
 			<fileset dir="${build.classes.dir}">
@@ -143,7 +134,6 @@
     <target name="distclean" depends="clean">
         <delete dir="${lib.dir}"/>
         <delete dir="${ivy.jar.dir}"/>
-
     </target>
 	<target name="dist" depends="jar,javadoc">
 		<property name="prefix" value="${project.name}-${version}" />
