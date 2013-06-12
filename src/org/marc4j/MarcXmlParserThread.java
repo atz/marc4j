@@ -33,9 +33,7 @@ import org.xml.sax.InputSource;
 public class MarcXmlParserThread extends Thread {
 
     private RecordStack queue;
-
     private InputSource input;
-
     private TransformerHandler th = null;
 
     /**

@@ -5,6 +5,7 @@
  *
  */
 package org.marc4j.marc
+import org.marc4j.marc.Leader
 import org.marc4j.marc.Field
 import org.marc4j.marc.Subfield
 
@@ -15,37 +16,28 @@ import org.marc4j.marc.Subfield
 class Record {
     Long   id
     Leader leader
-    def controlFields = [:]
-    def dataFields    = []
+    def fields = []   // some control fields are repeatable (006/007)
     String type
 
-    /**
-     * Adds a <code>VariableField</code> being a <code>ControlField</code>
-     * or <code>DataField</code>.
-     * <p/>
-     * If the <code>VariableField</code> is a control number field (001) and
-     * the record already has a control number field, the field is replaced with
-     * the new instance.
-     *
-     * @param field the <code>VariableField</code>
-     * @throws IllegalAddException when the parameter is not a <code>VariableField</code>
-     *                             instance
-     */
+    def addChild(child) {   // for BuilderSupport
+      if (child in org.marc4j.marc.Leader) {
+        leader = child
+      } else {
+        addField(child)
+      }
+    }
     def addField(field) {
       def tag = field.tag
       if (field.isControlField()) {
-        controlFields[tag] = field
-      } else {
-        dataFields << field
+        if (tag == "001" || tag == "003" || tag == "005") {  // not repeatable!
+          fields = fields.grep{ it != field }
+        }
       }
+      fields << field
     }
 
     def removeField(field) {
-      def tag = field.tag
-      if (field.isControlField())
-        controlFields.remove(field)
-      else
-        dataFields.remove(field)
+      fields.remove(field)
     }
 
     /**
@@ -55,23 +47,24 @@ class Record {
      * @return ControlField - the control number field
      */
     def getControlField(String tag = "001") {
-      return controlFields[tag]
+      return fields.grep{ it.tag == tag }?.first()
     }
     def getControlNumber() {
-      return getControlNumberField()?.data
+      return getControlField()?.data
     }
 
     def getField(String tag) {
-      return controlFields[tag] ?: dataFields.grep{ it.tag == tag }?.first() ?: null
+      return fields[tag] ?: dataFields.grep{ it.tag == tag }?.first() ?: null
     }
 
+    def getFields(String tag) { getFields([tag]) }
     def getFields(List tags=[]) {
       if (tags.size == 0) {
-        return controlFields.each{it.value}.plus(dataFields.sort{a,b -> a.tag <=> b.tag})
+        return fields.plus(dataFields).sort{a,b -> a.tag <=> b.tag}
       }
-      return controlFields.findAll{it.tag in tags}.each{it.value}.plus(
-        dataFields.grep{it.tag in tags}.sort{a,b -> a.tag <=> b.tag}
-      )
+      return fields.findAll{it.tag in tags}.plus(
+        dataFields.grep{it.tag in tags}
+      ).sort{a,b -> a.tag <=> b.tag}
     }
 
     /**
@@ -104,6 +97,12 @@ class Record {
      */
     String toString() {
       return "LEADER " + this.leader.toString() + "\n" + this.getFields().collect(it.toString() + '\n').join()
+    }
+    String toXML() {
+
+    }
+    def toBinary() {
+      
     }
 }
 

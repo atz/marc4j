@@ -7,7 +7,6 @@ package org.marc4j.marc
 
 class Field {
   String tag
-// Long serialVersionUID = 1L
 
   int compareTo(Field obj) {
     return tag <=> obj.tag
