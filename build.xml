@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<project  xmlns:ivy="antlib:org.apache.ivy.ant" name="marc4j" default="jar" basedir=".">
+<project  xmlns:ivy="antlib:org.apache.ivy.ant" name="${project.name}" default="jar" basedir=".">
 
     <target name="init">
 		<tstamp />
@@ -83,7 +83,7 @@
         </javac>
     </target>
 
-    <target name="test" depends="compile-all,compile-tests">
+    <target name="ant.test" depends="compile-all,compile-tests">
 		<junit fork="yes" forkmode="perBatch" haltonfailure="true">
             <batchtest>
                 <fileset dir="${test.src.dir}">
