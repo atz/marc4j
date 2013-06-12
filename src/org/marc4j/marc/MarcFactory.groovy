@@ -3,9 +3,9 @@
  *
  * This file is part of MARC4J licensed unter GNU LGPL 2.1+
  */
-package org.marc4j.marc;
+package org.marc4j.marc
 
-import java.util.Properties;
+import java.util.Properties
 
 /**
  * Factory for creating MARC record objects.
@@ -26,6 +26,7 @@ import java.util.Properties;
  */
 class MarcFactory {
   String className = null
+  Properties props = null      // cache props to avoid touching filesystem every time
   /**
    * Creates a new factory instance. The implementation class to load is the
    * first found in the following locations:
@@ -43,54 +44,47 @@ class MarcFactory {
       ClassLoader loader = Thread.currentThread().getContextClassLoader() ?: MarcFactory.class.getClassLoader()
       int count = 0
       do {
-          className = getFactoryClassName(loader, count++)
-          if (className != null) {
-              try {
-                Class<?> t = (loader != null) ? loader.loadClass(className) : Class.forName(className)
-                return (MarcFactory) t.newInstance()
-              } catch (ClassNotFoundException e) {
-                className = null;
-              } catch (Exception e) {
-              }
+        className = getFactoryClassName(loader, count++)
+        if (className != null) {
+          try {
+            Class<?> t = (loader != null) ? loader.loadClass(className) : Class.forName(className)
+            return (MarcFactory) t.newInstance()
+          } catch (ClassNotFoundException e) {
+            className = null
+          } catch (Exception e) {
           }
-      } while (className == null && count < 3);
+        }
+      } while (className == null && count < 3)
       return new org.marc4j.marc.MarcFactory()
   }
 
   private static String getFactoryClassName(ClassLoader loader, int attempt) {
-      final String propertyName = "org.marc4j.marc.MarcFactory";
-      switch (attempt) {
-        case 0:
-            return System.getProperty(propertyName);
-        case 1:
-            try {
-                File file = new File(System.getProperty("java.home"))
-                file = new File(file, "lib")
-                file = new File(file, "marc4j.properties")
-                InputStream in = new FileInputStream(file)
-                Properties props = new Properties()
-                props.load(in)
-                in.close()
-                return props.getProperty(propertyName)
-            } catch (IOException e) {
-                return null
-            }
-        case 2:
-            try {
-                String serviceKey = "/META-INF/services/" + propertyName
-                InputStream in = (loader != null) ? loader.getResourceAsStream(serviceKey) : MarcFactory.class.getResourceAsStream(serviceKey)
-                if (in != null) {
-                  BufferedReader r = new BufferedReader(new InputStreamReader(in))
-                  String ret = r.readLine()
-                  r.close()
-                  return ret
-                }
-            } catch (IOException e) {
-            }
-            return null;
-        default:
-            return null;
-      }
+      final String propertyName = "org.marc4j.marc.MarcFactory"
+      try {
+        switch (attempt) {
+          case 0:
+              return System.getProperty(propertyName)
+          case 1:
+              if (props == null) {
+                file = new File(System.getProperty("java.home"), "lib")
+                ins = new FileInputStream(new File(file, "marc4j.properties"))
+                props = new Properties()
+                props.load(ins)
+                ins.close()
+              }
+              return props.getProperty(propertyName)
+          case 2:
+              String serviceKey = "/META-INF/services/" + propertyName
+              InputStream in = (loader != null) ? loader.getResourceAsStream(serviceKey) : MarcFactory.class.getResourceAsStream(serviceKey)
+              if (in != null) {
+                BufferedReader r = new BufferedReader(new InputStreamReader(in))
+                String ret = r.readLine()
+                r.close()
+                return ret
+              }
+        }
+      } catch (IOException e) {}
+      return null
   }
 
   abstract ControlField newControlField()

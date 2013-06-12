@@ -182,16 +182,11 @@ import java.io.*;
 public class MarcXmlWriter implements MarcWriter {
 
     protected static final String CONTROL_FIELD = "controlfield";
-
-    protected static final String DATA_FIELD = "datafield";
-
-    protected static final String SUBFIELD = "subfield";
-
-    protected static final String COLLECTION = "collection";
-
-    protected static final String RECORD = "record";
-
-    protected static final String LEADER = "leader";
+    protected static final String DATA_FIELD    = "datafield";
+    protected static final String SUBFIELD      = "subfield";
+    protected static final String COLLECTION    = "collection";
+    protected static final String RECORD        = "record";
+    protected static final String LEADER        = "leader";
 
     private boolean indent = false;
 

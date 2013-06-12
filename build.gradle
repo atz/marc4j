@@ -1,0 +1,41 @@
+// apply plugin: 'java'
+apply plugin: 'groovy'
+apply plugin: 'maven'
+
+version = '0.1'
+
+repositories {
+    mavenCentral()
+    maven { url 'http://maven.indexdata.com/' }
+}
+
+dependencies {
+    println name
+    println description
+
+    compile 'org.codehaus.groovy:groovy-all:2.1.2'
+    // groovy localGroovy()
+
+    println "Transitive Dependency Handling"
+    ['org.apache.ivy:ivy:2.3.0', 'commons-cli:commons-cli:1.2', 'commons-validator:commons-validator:1.4.0'].each{
+      compile(it) {transitive = true}
+    }
+    
+    testCompile 'org.spockframework:spock-core:0.7-groovy-2.0'
+}
+
+test {
+    println "Testing..."
+    afterTest { desc, result -> 
+        println "Test ${desc.name} [${desc.className}] result: ${result.resultType}"
+    }
+}
+
+task copyToLib (type: Copy) {
+    description = "Copies all artifacts to build/lib"
+    into('build/lib')
+    from configurations.default
+    from configurations.default.allArtifacts.files
+}
+
+

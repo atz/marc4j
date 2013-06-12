@@ -76,7 +76,6 @@ public class MarcXmlParser {
         result.setHandler(handler);
         th.setResult(result);
         parse(th, input);
-
     }
 
     private void parse(ContentHandler handler, InputSource input) {
@@ -85,8 +84,7 @@ public class MarcXmlParser {
         try {
             reader = spf.newSAXParser().getXMLReader();
             reader.setFeature("http://xml.org/sax/features/namespaces", true);
-            reader.setFeature("http://xml.org/sax/features/namespace-prefixes",
-                    true);
+            reader.setFeature("http://xml.org/sax/features/namespace-prefixes", true);
             reader.setContentHandler(handler);
             reader.parse(input);
         } catch (Exception e) {

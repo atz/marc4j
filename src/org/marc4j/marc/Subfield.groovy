@@ -8,7 +8,6 @@ package org.marc4j.marc
 class Subfield {
   char   code
   String data
-// Long   id    // previous code attempted to implement Serializable
 
   String toString() {
     return '$' + code + (data == null ? '' : data)

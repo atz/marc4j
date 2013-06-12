@@ -30,6 +30,9 @@ class DataField extends Field {
     subfields.find{it.code == code}
   }
 
+  def addChild(child) {     // for BuilderSupport
+    addSubfield(child)
+  }
 	def addSubfield(Subfield subfield) {
     subfields.add(subfield)
   }
@@ -43,7 +46,7 @@ class DataField extends Field {
     subfields[index..<index] = more
   }
   def removeSubfield(Subfield subfield) {
-    subfields.remove(subfield);
+    subfields.remove(subfield)
   }
   String toString() {
     return this.tag + ' ' + \
