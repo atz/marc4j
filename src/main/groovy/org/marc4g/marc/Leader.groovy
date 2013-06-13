@@ -17,7 +17,7 @@ class Leader {
   char[] implDefined2       // Implementation defined    (Position 17-18)
   char[] entryMap           // Entry map                 (Position 19-23)
 
-  format5 = new org.marc4j.util.CustomDecimalFormat(5)
+  def format5 = new org.marc4j.util.CustomDecimalFormat(5)
   /**
    * Creates a new leader from a String object.
    * 
