@@ -3,8 +3,8 @@
  *
  * This file is part of MARC4J licensed unter GNU LGPL 2.1+
  */
-package org.marc4j.marc
-import org.marc4j.marc.Subfield
+package org.marc4g.marc
+import org.marc4g.marc.Subfield
 
 class DataField extends Field {
   char ind1

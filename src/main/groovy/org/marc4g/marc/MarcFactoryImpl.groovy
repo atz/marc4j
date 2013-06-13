@@ -3,10 +3,10 @@
  *
  * This file is part of MARC4J licensed unter GNU LGPL 2.1+
  */
-package org.marc4j.marc
+package org.marc4g.marc
 
-import org.marc4j.MarcException
-import org.marc4j.marc.*
+import org.marc4g.MarcException
+import org.marc4g.marc.*
 
 class MarcFactory {
   ControlField newControlField(String tag=null, String data=null) {
