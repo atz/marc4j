@@ -5,19 +5,19 @@
  */
 package org.marc4g.marc
 
-public class Leader {
-  Long id;
-  private int    recordLength       // The logical record length (Position  0-4)
-  private char   recordStatus       // The record status         (Position  5)
-  private char   typeOfRecord       // Type of record            (Position  6)
-  private char[] implDefined1       // Implementation defined    (Position  7-8)
-  private char   charCodingScheme   // Character coding scheme   (Position  9)
-  private int    indicatorCount     // The indicator count       (Position 10)
-  private int    subfieldCodeLength // The subfield code length  (Position 11)
-  private int    baseAddressOfData  // The base address of data  (Position 12-16)
-  private char[] implDefined2       // Implementation defined    (Position 17-18)
-  private char[] entryMap           // Entry map                 (Position 19-23)
+class Leader {
+  int    recordLength       // The logical record length (Position  0-4)
+  char   recordStatus       // The record status         (Position  5)
+  char   typeOfRecord       // Type of record            (Position  6)
+  char[] implDefined1       // Implementation defined    (Position  7-8)
+  char   charCodingScheme   // Character coding scheme   (Position  9)
+  int    indicatorCount     // The indicator count       (Position 10)
+  int    subfieldCodeLength // The subfield code length  (Position 11)
+  int    baseAddressOfData  // The base address of data  (Position 12-16)
+  char[] implDefined2       // Implementation defined    (Position 17-18)
+  char[] entryMap           // Entry map                 (Position 19-23)
 
+  format5 = new org.marc4j.util.CustomDecimalFormat(5)
   /**
    * Creates a new leader from a String object.
    * 
@@ -25,7 +25,7 @@ public class Leader {
    *            the leader string value
    */
   def Leader (String ldr) {
-    unmarshal(ldr);
+    unmarshal(ldr)
   }
 
   /**
@@ -43,43 +43,25 @@ public class Leader {
    */
   def unmarshal(String ldr) {
     try {
-      String s;
-      s = ldr.substring(0, 5);
-      if (s.isInteger())
-          setRecordLength(Integer.parseInt(s));
-      else
-          setRecordLength(0);
-      setRecordStatus(ldr.charAt(5));
-      setTypeOfRecord(ldr.charAt(6));
-      setImplDefined1(ldr.substring(7, 9).toCharArray());
-      setCharCodingScheme(ldr.charAt(9));
-      s = String.valueOf(ldr.charAt(10));
-      if (s.isInteger())
-          setIndicatorCount(Integer.parseInt(s));
-      else
-          setIndicatorCount(2);
-      s = String.valueOf(ldr.charAt(10));
-      if (s.isInteger())
-          setSubfieldCodeLength(Integer.parseInt(s));
-      else
-          setSubfieldCodeLength(2);
-      s = ldr.substring(12, 17);
-      if (s.isInteger())
-          setBaseAddressOfData(Integer.parseInt(s));
-      else
-          setBaseAddressOfData(0);
-      setImplDefined2(ldr.substring(17, 20).toCharArray())
-      setEntryMap(ldr.substring(20, 24).toCharArray())
+      s = ldr.substring(0, 5)
+      recordLength = s.isInteger() ? Integer.parseInt(s) : 0
+      recordStatus = ldr.charAt(5)
+      typeOfRecord = ldr.charAt(6)
+      implDefined1 = ldr.substring(7, 9).toCharArray()
+      charCodingScheme = ldr.charAt(9)
+      s = String.valueOf(ldr.charAt(10))
+      indicatorCount     = s.isInteger() ? Integer.parseInt(s) : 2
+      s = String.valueOf(ldr.charAt(11))
+      subfieldCodeLength = s.isInteger() ? Integer.parseInt(s) : 2
+      s = ldr.substring(12, 17)
+      baseAddressOfData  = s.isInteger() ? Integer.parseInt(s) : 0
+      implDefined2       = ldr.substring(17, 20).toCharArray()
+      entryMap           = ldr.substring(20, 24).toCharArray()
     } catch (NumberFormatException e) {
       throw new RuntimeException("Unable to parse Leader", e);
     }
   }
 
-  /**
-   * Creates a string object from this leader object.
-   * 
-   * @return String - the string object from this leader object
-   */
   String marshal() {
     return this.toString()
   }
@@ -106,6 +88,5 @@ public class Leader {
              getImplDefined2()        + \
              getEntryMap()
   }
-
-  DecimalFormat format5 = new org.marc4j.util.CustomDecimalFormat(5)
 }
+

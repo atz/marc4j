@@ -8,10 +8,6 @@ package org.marc4g.marc
 class Field {
   String tag
 
-  int compareTo(Field obj) {
-    return tag <=> obj.tag
-  }
-
   String toString() {
     return tag
   }

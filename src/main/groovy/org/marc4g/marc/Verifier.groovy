@@ -3,9 +3,9 @@
  *
  * This file is part of MARC4J licensed unter GNU LGPL 2.1+
  */
-package org.marc4j.marc
+package org.marc4g.marc
 
-import org.marc4j.marc.ControlField
+import org.marc4g.marc.ControlField
 
 /**
  * Handles MARC checks on tags, data elements and <code>Record</code> objects.

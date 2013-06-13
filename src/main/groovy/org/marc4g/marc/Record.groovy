@@ -4,10 +4,10 @@
  * This file is part of MARC4J licensed unter GNU LGPL 2.1+
  *
  */
-package org.marc4j.marc
-import org.marc4j.marc.Leader
-import org.marc4j.marc.Field
-import org.marc4j.marc.Subfield
+package org.marc4g.marc
+import org.marc4g.marc.Leader
+import org.marc4g.marc.Field
+import org.marc4g.marc.Subfield
 
 /**
  * Represents a MARC record.
@@ -20,17 +20,18 @@ class Record {
     String type
 
     def addChild(child) {   // for BuilderSupport
-      if (child in org.marc4j.marc.Leader) {
+      if (child in org.marc4g.marc.Leader) {
         leader = child
       } else {
         addField(child)
       }
     }
+
     def addField(field) {
       def tag = field.tag
       if (field.isControlField()) {
         if (tag == "001" || tag == "003" || tag == "005") {  // not repeatable!
-          fields = fields.grep{ it != field }
+          fields = fields.grep{ it != field }                // remove the old one
         }
       }
       fields << field
@@ -111,7 +112,7 @@ class Record {
 Example migration:
 OLD method:  List<VariableField> getVariableFields(String[] tags)
 Replace with:
-  record.getFields().grep{ it.tag in tags }
+  record.fields.grep{ it.tag in tags }
 
 Replace List<VariableField> find(String pattern)
 with:
